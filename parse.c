@@ -15,6 +15,7 @@ static TokenType token; /* holds current token */
 /* function prototypes for recursive calls */
 static TreeNode * stmt_sequence(void);
 static TreeNode * statement(void);
+static TreeNode * while_stmt(void); /* New */
 static TreeNode * if_stmt(void);
 static TreeNode * repeat_stmt(void);
 static TreeNode * assign_stmt(void);
@@ -44,7 +45,7 @@ TreeNode * stmt_sequence(void)
 { TreeNode * t = statement();
   TreeNode * p = t;
   while ((token!=ENDFILE) && (token!=END) &&
-         (token!=ELSE) && (token!=UNTIL))
+         (token!=ELSE) && (token!=UNTIL) && (token!=ENDWHILE)) /* New */
   { TreeNode * q;
     match(SEMI);
     q = statement();
@@ -62,6 +63,7 @@ TreeNode * stmt_sequence(void)
 TreeNode * statement(void)
 { TreeNode * t = NULL;
   switch (token) {
+    case WHILE : t = while_stmt(); break;
     case IF : t = if_stmt(); break;
     case REPEAT : t = repeat_stmt(); break;
     case ID : t = assign_stmt(); break;
@@ -73,6 +75,19 @@ TreeNode * statement(void)
               break;
   } /* end case */
   return t;
+}
+
+static TreeNode * while_stmt(void) /* New */
+{
+        TreeNode * t = newStmtNode(WhileK);
+        match(WHILE);
+        match(LPAREN);
+        if (t != NULL) t->child[0] = expr();
+        match(RPAREN);
+        if (t != NULL) t->child[1] = stmt_sequence();
+        match(ENDWHILE);
+        return t;
+
 }
 
 TreeNode * if_stmt(void)

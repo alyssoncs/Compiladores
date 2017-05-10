@@ -110,7 +110,7 @@ char * copyString(char * s)
 /* Variable indentno is used by printTree to
  * store current number of spaces to indent
  */
-static indentno = 0;
+static int indentno = 0;
 
 /* macros to increase/decrease indentation */
 #define INDENT indentno+=2
@@ -133,6 +133,9 @@ void printTree( TreeNode * tree )
     printSpaces();
     if (tree->nodekind==StmtK)
     { switch (tree->kind.stmt) {
+        case WhileK:
+          fprintf(listing, "While\n");
+          break;
         case IfK:
           fprintf(listing,"If\n");
           break;
