@@ -1,18 +1,5 @@
-{ Sample program
-  in TINY language -
-  computes factorial
-}
-read x; { input an integer }
-read _ab12;
-if 0 < x then { don't compute if x <= 0 }
-  fact := 1;
-  repeat
-  	fact := fact+1
-  until x = 0;
-
-  while (1 < 2)
-  	fact := fact+2
-  endwhile;
-
-  write fact  { output factorial of x }
-end
+y := 0;
+while (y < 20)
+        write y;
+        y := y+1
+endwhile

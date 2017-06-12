@@ -9,6 +9,15 @@ CC = gcc
 CFLAGS =
 
 OBJS = main.o util.o scan.o parse.o symtab.o analyze.o code.o cgen.o
+TM = tm.o
+
+all: tm tiny
+
+tm: $(TM)
+	$(CC) $(TM) -o tm
+
+tm.o: tm.c
+	$(CC) -c tm.c
 
 tiny: $(OBJS)
 	$(CC) $(CFLAGS) -o tiny $(OBJS)
@@ -40,8 +49,6 @@ cgen.o: cgen.c globals.h symtab.h code.h cgen.h
 clean:
 	rm *.o
 
-tm.exe: tm.c
-	$(CC) $(CFLAGS) -o tm tm.c
 
 
 all: tiny tm
